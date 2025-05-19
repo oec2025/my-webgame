@@ -10,3 +10,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install pygbag
+        run: |
+          pip install git+https://github.com/pygame-web/pygbag.git
+
+      - name: Build with pygbag
+        run: |
+          pygbag --build main.py
+
+      - name: Upload built web game as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: webgame
+          path: build/web/
