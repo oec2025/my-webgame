@@ -1,14 +1,15 @@
-name: Build Pygbag Game
+name: Build and Deploy Pygbag Game
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Python
@@ -20,12 +21,13 @@ jobs:
         run: |
           pip install git+https://github.com/pygame-web/pygbag.git
 
-      - name: Build with pygbag
+      - name: Build Pygbag Game
         run: |
           pygbag --build main.py
 
-      - name: Upload built web game as artifact
-        uses: actions/upload-artifact@v2.3.1
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: webgame
-          path: build/web/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          publish_branch: gh-pages
