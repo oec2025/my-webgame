@@ -1,11 +1,11 @@
-name: Build and Deploy Pygbag Game
+name: Build and Check Pygbag Output
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,10 +25,8 @@ jobs:
         run: |
           pygbag --build main.py
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
-          publish_branch: gh-pages
-          force_orphan: true
+      - name: List build/web/ output
+        run: |
+          echo "::group::Generated files"
+          ls -lh build/web/
+          echo "::endgroup::"
