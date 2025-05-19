@@ -25,7 +25,7 @@ jobs:
           pygbag --build main.py
 
       - name: Upload built web game as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: webgame
           path: build/web/
